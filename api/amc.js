@@ -3,7 +3,9 @@ export default async function handler(req, res) {
     const page = await fetch("https://vileembeds.pages.dev/embed/amc-usa");
     const html = await page.text();
 
-    const match = html.match(/https.*\.m3u8[^"]+/);
+    // regex lebih fleksibel
+    const match = html.match(/https?:\/\/[^"']+\.m3u8[^"']*/);
+
     if (!match) {
       return res.status(500).send("Tidak menemukan link m3u8");
     }
