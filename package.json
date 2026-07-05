@@ -3,6 +3,7 @@
   "name": "amc-proxy",
   "version": "1.0.0",
   "description": "Proxy untuk ambil m3u8 dengan token dinamis",
+  "type":"module",
   "main": "amc.js",
   "scripts": {
     "start": "node api/amc.js"
