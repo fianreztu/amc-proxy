@@ -1,29 +1,19 @@
 export default async function handler(req, res) {
   try {
-    // Menembak langsung ke penyedia stream dengan membawa identitas (Header) yang valid
-    const response = await fetch('https://inproviszon.st/amc-usa.m3u8', {
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Referer': 'https://vileembeds.pages.dev/',
-        'Origin': 'https://vileembeds.pages.dev',
-        'Accept': '*/*'
-      },
-      redirect: 'manual' // Mencegah Vercel mengikuti redirect otomatis secara internal
-    });
+    const page = await fetch("https://vileembeds.pages.dev/embed/amc-usa");
+    const html = await page.text();
 
-    // Mengambil URL final (termasuk token dinamis baru yang diberikan oleh server)
-    const finalUrl = response.headers.get('location') || response.url;
-
-    if (finalUrl) {
-      // Mengarahkan player Anda langsung ke link dengan token terbaru tersebut
-      res.setHeader('Location', finalUrl);
-      return res.status(302).end();
-    } else {
-      return res.status(404).json({ error: 'Gagal mendapatkan token m3u8 terbaru.' });
+    const match = html.match(/https.*\.m3u8[^"]+/);
+    if (!match) {
+      return res.status(500).send("Tidak menemukan link m3u8");
     }
 
-  } catch (error) {
-    return res.status(500).json({ error: 'Terjadi kesalahan sistem', details: error.message });
+    const m3u8Url = match[0];
+    const m3u8Data = await fetch(m3u8Url).then(r => r.text());
+
+    res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
+    res.send(m3u8Data);
+  } catch (err) {
+    res.status(500).send("Error: " + err.message);
   }
 }
