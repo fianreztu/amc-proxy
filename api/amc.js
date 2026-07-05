@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     const html = await page.text();
 
     // regex lebih fleksibel
-    const match = html.match(/https?:\/\/[^"']+\.m3u8[^"']*/);
+    const match = html.match(/https?:\/\/[^"']+amc-usa\.m3u8[^"']*/);
 
     if (!match) {
       return res.status(500).send("Tidak menemukan link m3u8");
