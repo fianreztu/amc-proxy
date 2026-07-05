@@ -5,7 +5,7 @@
   "description": "Proxy untuk ambil m3u8 dengan token dinamis",
   "main": "amc.js",
   "scripts": {
-    "start": "api/amc.js"
+    "start": "node api/amc.js"
   },
   "dependencies": {
     "node-fetch": "^3.3.2"
