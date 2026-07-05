@@ -1,0 +1,13 @@
+ 
+{
+  "name": "amc-proxy",
+  "version": "1.0.0",
+  "description": "Proxy untuk ambil m3u8 dengan token dinamis",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
